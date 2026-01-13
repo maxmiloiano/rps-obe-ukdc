@@ -56,7 +56,14 @@ class DosenController extends Controller
             'prodi_id'    => 'required',
         ]);
 
-        $dosen->update($request->all());
+        $dosen->update([
+        'nip_nik' => $request->nip_nik,
+        'nidn' => $request->nidn,
+        'nama_dosen' => $request->nama_dosen,
+        'email' => $request->email,
+        'fakultas_id' => $request->fakultas_id,
+        'prodi_id' => $request->prodi_id,
+    ]);
 
         return redirect()
             ->route('data-master.index', ['tab' => 'dosen'])

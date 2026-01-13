@@ -53,6 +53,54 @@ class DataMasterController extends Controller
         Fakultas::findOrFail($id)->delete();
         return back()->with('success','Data Fakultas berhasil dihapus');
     }
+    // ================= EDIT FAKULTAS =================
+    public function editFakultas($id)
+    {
+        $fakultas = Fakultas::findOrFail($id);
+        return view('data-master.edit-fakultas', compact('fakultas'));
+    }
+
+    public function updateFakultas(Request $request, $id)
+    {
+        $request->validate([
+        'kode_fakultas' => 'required|unique:fakultas,kode_fakultas,' . $id,
+        'nama_fakultas' => 'required'
+    ]);
+
+        Fakultas::findOrFail($id)->update($request->only(
+        'kode_fakultas','nama_fakultas'
+    ));
+
+        return redirect()
+        ->route('data-master.index',['tab'=>'fakultas'])
+        ->with('success','Data Fakultas berhasil diperbarui');
+    }
+    // ================= EDIT PRODI =================
+    public function editProdi($id)
+    {
+        $prodi = Prodi::findOrFail($id);
+        $fakultas = Fakultas::all();
+
+        return view('data-master.edit-prodi', compact('prodi','fakultas'));
+    }
+    public function updateProdi(Request $request, $id)
+    {
+        $request->validate([
+        'nama_prodi' => 'required',
+        'fakultas_id' => 'required|exists:fakultas,id'
+    ]);
+
+        Prodi::findOrFail($id)->update([
+        'nama_prodi' => $request->nama_prodi,
+        'fakultas_id' => $request->fakultas_id
+    ]);
+
+        return redirect()
+        ->route('data-master.index',['tab'=>'prodi'])
+        ->with('success','Data Prodi berhasil diperbarui');
+    }
+
+
 
     /* ================= PRODI ================= */
     public function storeProdi(Request $request)
