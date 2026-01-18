@@ -2,12 +2,15 @@
 
 @section('content')
 
-<!-- BREADCRUMB -->
+{{-- BREADCRUMB --}}
 <nav class="breadcrumb mb-3">
-    <span>Pengaturan</span> / <strong>Data Master</strong>
+    <span>
+        <i class="bi bi-journal-text me-1"></i> Pengaturan
+    </span>
+    <span class="mx-2">›</span>
+    <strong>Data Master</strong>
 </nav>
 
-<h5 class="mb-3">Data Master</h5>
 
 <!-- TABS -->
 <ul class="nav nav-tabs mb-3">

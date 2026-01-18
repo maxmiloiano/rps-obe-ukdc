@@ -8,6 +8,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DataMasterController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\SetProdiController;
+use App\Http\Controllers\ProfilLulusanController;
+use App\Http\Controllers\CplController;
+use App\Http\Controllers\IndikatorCplController;
+use App\Http\Controllers\BahanKajianController;
+use App\Http\Controllers\MataKuliahController;
 
 
 
@@ -83,6 +89,68 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/kaprodi/{id}', [DataMasterController::class,'updateKaprodi'])->name('kaprodi.update');
     Route::delete('/kaprodi/{id}', [DataMasterController::class,'destroyKaprodi'])->name('kaprodi.destroy');
 
+/*
+/--------------------------------------------------------------------------
+/ SET PRODI DAN TAHUN
+/--------------------------------------------------------------------------
+*/  
+Route::middleware(['auth'])->group(function () {
+    Route::get('/set-prodi', [SetProdiController::class,'index'])->name('set-prodi.index');
+    Route::post('/set-prodi', [SetProdiController::class,'store'])->name('set-prodi.store');
+});
+
+
+/*
+/--------------------------------------------------------------------------
+/ Kurikulum
+/--------------------------------------------------------------------------
+*/
+// ======== PROFIL LULUSAN ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/pl', [ProfilLulusanController::class,'index'])->name('kurikulum.pl.index');
+    Route::post('/kurikulum/pl', [ProfilLulusanController::class,'store'])->name('kurikulum.pl.store');
+    Route::get('/kurikulum/pl/{id}/edit', [ProfilLulusanController::class,'edit'])->name('kurikulum.pl.edit');
+    Route::put('/kurikulum/pl/{id}', [ProfilLulusanController::class,'update'])->name('kurikulum.pl.update');
+    Route::delete('/kurikulum/pl/{id}', [ProfilLulusanController::class,'destroy'])->name('kurikulum.pl.destroy');
+    Route::post('/kurikulum/pl/import', [ProfilLulusanController::class,'import'])->name('kurikulum.pl.import');
+    Route::get('/kurikulum/pl/template', [ProfilLulusanController::class,'downloadTemplate'])->name('kurikulum.pl.template');
+});
+// ======== CPL ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/cpl', [CplController::class,'index'])->name('kurikulum.cpl.index');
+    Route::post('/kurikulum/cpl', [CplController::class,'store'])->name('kurikulum.cpl.store');
+    Route::get('/kurikulum/cpl/{id}/edit', [CplController::class,'edit'])->name('kurikulum.cpl.edit');
+    Route::put('/kurikulum/cpl/{id}', [CplController::class,'update'])->name('kurikulum.cpl.update');
+    Route::delete('/kurikulum/cpl/{id}', [CplController::class,'destroy'])->name('kurikulum.cpl.destroy');
+    Route::post('/kurikulum/cpl/import', [CplController::class,'import'])->name('kurikulum.cpl.import');
+    Route::get('/kurikulum/cpl/template', [CplController::class,'downloadTemplate'])->name('kurikulum.cpl.template');
+});    
+// ======== INDIKATOR CPL ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/indikator-cpl', [IndikatorCplController::class,'index'])->name('kurikulum.indikator.index');
+    Route::post('/kurikulum/indikator-cpl', [IndikatorCplController::class,'store'])->name('kurikulum.indikator.store');
+    Route::delete('/kurikulum/indikator-cpl/{id}', [IndikatorCplController::class,'destroy'])->name('kurikulum.indikator.destroy');
+    Route::put('/kurikulum/indikator-cpl/{id}', [IndikatorCplController::class,'update'])->name('kurikulum.indikator.update');
+
+});
+// ======== BAHAN KAJIAN ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/bahan-kajian', [BahanKajianController::class,'index'])->name('kurikulum.bk.index');
+    Route::post('/kurikulum/bahan-kajian', [BahanKajianController::class,'store'])->name('kurikulum.bk.store');
+    Route::put('/kurikulum/bahan-kajian/{id}', [BahanKajianController::class,'update'])->name('kurikulum.bk.update');
+    Route::delete('/kurikulum/bahan-kajian/{id}', [BahanKajianController::class,'destroy'])->name('kurikulum.bk.destroy');
+    Route::post('/kurikulum/bahan-kajian/import', [BahanKajianController::class,'import'])->name('kurikulum.bk.import');
+    Route::get('/kurikulum/bahan-kajian/template', [BahanKajianController::class,'template'])->name('kurikulum.bk.template');
+});
+// ======== MATA KULIAH ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/mata-kuliah', [MataKuliahController::class,'index'])->name('kurikulum.mk.index');
+    Route::post('/kurikulum/mata-kuliah', [MataKuliahController::class,'store'])->name('kurikulum.mk.store');
+    Route::put('/kurikulum/mata-kuliah/{id}', [MataKuliahController::class,'update'])->name('kurikulum.mk.update');
+    Route::delete('/kurikulum/mata-kuliah/{id}', [MataKuliahController::class,'destroy'])->name('kurikulum.mk.destroy');
+    Route::post('/kurikulum/mata-kuliah/import', [MataKuliahController::class,'import'])->name('kurikulum.mk.import');
+    Route::get('/kurikulum/mata-kuliah/template', [MataKuliahController::class,'template'])->name('kurikulum.mk.template');
+});
 
     /*
     |--------------------------------------------------------------------------

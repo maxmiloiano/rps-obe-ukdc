@@ -7,12 +7,11 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons (breadcrumb & UI) -->
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-
 
     <style>
         body {
@@ -30,6 +29,10 @@
         }
         .toggle-icon {
             font-size: 14px;
+        }
+        .topbar {
+            background: #ffffff;
+            border-bottom: 1px solid #dee2e6;
         }
     </style>
 </head>
@@ -54,6 +57,7 @@
             <span class="toggle-icon">🔽</span>
         </button>
 
+
         <!-- SUBMENU -->
         <div id="menuPengaturan" class="collapse show submenu mt-2">
             <a href="{{ route('users.index') }}" class="d-block text-white ps-4 py-2 rounded">
@@ -62,9 +66,32 @@
             <a href="{{ route('data-master.index') }}" class="d-block text-white ps-4 py-2 rounded">
                 <i class="bi bi-database me-1"></i> Data Master
             </a>
-            <a href="#" class="d-block text-white ps-4 py-2 rounded">
+            <a href="{{ route('set-prodi.index') }}" class="d-block text-white ps-4 py-2 rounded">
                 <i class="bi bi-calendar-check me-1"></i> Set Prodi & Tahun Aktif
             </a>
+        </div>
+
+        <!-- DROPDOWN KURIKULUM -->
+        <button
+            class="btn btn-primary w-100 d-flex justify-content-between align-items-center mt-3"
+            data-bs-toggle="collapse"
+            data-bs-target="#menuKurikulum"
+        >
+            <span>
+                <i class="bi bi-journal-text me-1"></i> Kurikulum
+            </span>
+            <span class="toggle-icon">🔽</span>
+        </button>
+
+        <!-- SUBMENU -->
+        <div id="menuKurikulum" class="collapse submenu mt-2">
+            <a href="{{ route('kurikulum.pl.index') }}" class="d-block text-white ps-4 py-2 rounded">
+                <i class="bi bi-card-checklist me-1"></i> Data
+            </a>
+            <a href="#" class="d-block text-white ps-4 py-2 rounded">Pemetaan</a>
+            <a href="#" class="d-block text-white ps-4 py-2 rounded">Penyusunan</a>
+            <a href="#" class="d-block text-white ps-4 py-2 rounded">Rangkuman</a>
+            <a href="#" class="d-block text-white ps-4 py-2 rounded">RPS</a>
         </div>
 
         <!-- LOGOUT -->
@@ -76,38 +103,68 @@
         </form>
     </div>
 
-    <!-- CONTENT -->
-    <div class="flex-fill p-4">
-        @yield('content')
+    <!-- CONTENT AREA -->
+    <div class="flex-fill">
+
+        <!-- TOP BAR -->
+        <div class="topbar d-flex justify-content-end align-items-center px-4 py-2">
+            @auth
+                @php
+                    $roleLabel = match(auth()->user()->role) {
+                        'admin' => 'Administrator',
+                        'kaprodi' => 'Kaprodi',
+                        'dosen' => 'Dosen',
+                        default => ucfirst(auth()->user()->role),
+                    };
+                @endphp
+
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-person-circle fs-4 text-primary"></i>
+                    <div class="text-end">
+                        <div class="fw-semibold">
+                            {{ auth()->user()->nama_lengkap }}
+                        </div>
+                        <small class="text-muted">
+                            {{ $roleLabel }}
+                        </small>
+                    </div>
+                </div>
+            @endauth
+        </div>
+
+        <!-- PAGE CONTENT -->
+        <div class="p-4">
+            @yield('content')
+        </div>
+
     </div>
 
 </div>
 
-<!-- jQuery (WAJIB untuk DataTables) -->
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- DataTables JS -->
- <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
 <!-- SCRIPT DARI HALAMAN -->
 @stack('scripts')
 
 <script>
-    // Toggle icon dropdown Pengaturan
     const pengaturanBtn = document.querySelector('[data-bs-target="#menuPengaturan"]');
     const icon = pengaturanBtn.querySelector('.toggle-icon');
     const menu = document.getElementById('menuPengaturan');
 
     menu.addEventListener('shown.bs.collapse', function () {
-        icon.textContent = '🔽'; // turun
+        icon.textContent = '🔽';
     });
 
     menu.addEventListener('hidden.bs.collapse', function () {
-        icon.textContent = '🔼'; // naik / tertutup
+        icon.textContent = '🔼';
     });
 </script>
 
