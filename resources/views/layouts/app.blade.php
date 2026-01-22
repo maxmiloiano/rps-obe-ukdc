@@ -88,7 +88,9 @@
             <a href="{{ route('kurikulum.pl.index') }}" class="d-block text-white ps-4 py-2 rounded">
                 <i class="bi bi-card-checklist me-1"></i> Data
             </a>
-            <a href="#" class="d-block text-white ps-4 py-2 rounded">Pemetaan</a>
+            <a href="{{ route('kurikulum.pemetaan.cpl_pl') }}" class="d-block text-white ps-4 py-2 rounded">
+                <i class="bi bi-graph-up me-1"></i> Pemetaan
+            </a>
             <a href="#" class="d-block text-white ps-4 py-2 rounded">Penyusunan</a>
             <a href="#" class="d-block text-white ps-4 py-2 rounded">Rangkuman</a>
             <a href="#" class="d-block text-white ps-4 py-2 rounded">RPS</a>

@@ -13,6 +13,15 @@ class ProfilLulusan extends Model
         'deskripsi',
         'kurikulum_id'
     ];
+    public function cpls()
+    {
+        return $this->belongsToMany(
+            Cpl::class,
+            'cpl_pl',
+            'pl_id',
+            'cpl_id'
+        );
+    }    
 
     public function kurikulum()
     {

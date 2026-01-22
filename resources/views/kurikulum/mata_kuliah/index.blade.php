@@ -8,7 +8,7 @@
         <i class="bi bi-journal-text me-1"></i> Kurikulum
     </span>
     <span class="mx-2">›</span>
-    <strong>Mata Kuliah</strong>
+    <strong>Data</strong>
 </nav>
 
 {{-- INFO --}}

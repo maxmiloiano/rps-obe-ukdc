@@ -103,10 +103,12 @@
                 - {{ $kurikulum->prodi->fakultas->nama_fakultas }}
             </td>
             <td class="text-center">
-                <a href="{{ route('kurikulum.pl.edit',$item->id) }}"
-                    class="btn btn-warning btn-sm">
+                <button class="btn btn-warning btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editPL{{ $item->id }}">
                     <i class="bi bi-pencil"></i>
-                </a>
+                </button>
+
 
                 <button class="btn btn-danger btn-sm"
                     data-bs-toggle="modal"
@@ -118,6 +120,54 @@
         @endforeach
     </tbody>
 </table>
+
+{{-- MODAL EDIT --}}
+@foreach($pl as $item)
+<div class="modal fade" id="editPL{{ $item->id }}" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST"
+      action="{{ route('kurikulum.pl.update', $item->id) }}"
+      class="modal-content">
+@csrf
+@method('PUT')
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit Profil Lulusan</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+    <div class="mb-2">
+        <label>Kode PL</label>
+        <input name="kode_pl"
+               value="{{ $item->kode_pl }}"
+               class="form-control"
+               required>
+    </div>
+
+    <div class="mb-2">
+        <label>Deskripsi</label>
+        <textarea name="deskripsi"
+                  class="form-control"
+                  rows="4"
+                  required>{{ $item->deskripsi }}</textarea>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary">Simpan Perubahan</button>
+    <button type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal">
+        Batal
+    </button>
+</div>
+
+</form>
+</div>
+</div>
+@endforeach
+
 
 @foreach($pl as $item)
 <div class="modal fade" id="deletePL{{ $item->id }}" tabindex="-1">

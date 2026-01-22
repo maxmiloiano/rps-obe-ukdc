@@ -15,7 +15,24 @@ class Cpl extends Model
         'deskripsi',
         'kurikulum_id'
     ];
-
+    public function pls()
+    {
+        return $this->belongsToMany(
+            ProfilLulusan::class,
+            'cpl_pl',
+            'cpl_id',
+            'pl_id'
+        );
+    }    
+    public function bks()
+    {
+        return $this->belongsToMany(
+            BahanKajian::class,
+            'cpl_bk',
+            'cpl_id',
+            'bk_id'
+        );
+    }
     public function kurikulum()
     {
         return $this->belongsTo(Kurikulum::class);

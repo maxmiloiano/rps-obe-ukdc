@@ -27,11 +27,13 @@ class CplImport implements ToCollection, WithHeadingRow
                 continue;
             }
 
-            Cpl::create([
-                'kode_cpl'     => trim($row['kode_cpl']),
-                'deskripsi'    => trim($row['deskripsi_cpl']),
-                'kurikulum_id' => $this->kurikulum_id,
-            ]);
+            Cpl::updateOrCreate(
+                ['kode_cpl' => trim($row['kode_cpl'])],
+                [
+                    'deskripsi'    => trim($row['deskripsi_cpl']),
+                    'kurikulum_id' => $this->kurikulum_id,
+                ]
+            );
         }
     }
 }

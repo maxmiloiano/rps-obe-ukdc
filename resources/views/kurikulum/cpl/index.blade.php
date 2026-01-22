@@ -107,10 +107,12 @@
                 - {{ $kurikulum->prodi->fakultas->nama_fakultas }}
             </td>
             <td class="text-center">
-                <a href="{{ route('kurikulum.cpl.edit',$item->id) }}"
-                   class="btn btn-warning btn-sm">
+                <button class="btn btn-warning btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editCPL{{ $item->id }}">
                     <i class="bi bi-pencil"></i>
-                </a>
+                </button>
+
                 <button class="btn btn-danger btn-sm"
                         data-bs-toggle="modal"
                         data-bs-target="#deleteCPL{{ $item->id }}">
@@ -124,6 +126,59 @@
     </tbody>
 </table>
 
+{{-- ================= MODAL EDIT CPL ================= --}}
+@foreach($cpl as $item)
+<div class="modal fade" id="editCPL{{ $item->id }}" tabindex="-1">
+<div class="modal-dialog">
+<form method="POST"
+      action="{{ route('kurikulum.cpl.update',$item->id) }}"
+      class="modal-content">
+@csrf
+@method('PUT')
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit CPL Prodi</h5>
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+    <div class="mb-3">
+        <label>Kode CPL</label>
+        <input type="text"
+               name="kode_cpl"
+               class="form-control"
+               value="{{ $item->kode_cpl }}"
+               required>
+    </div>
+
+    <div class="mb-3">
+        <label>Deskripsi</label>
+        <textarea name="deskripsi"
+                  class="form-control"
+                  rows="4"
+                  required>{{ $item->deskripsi }}</textarea>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary">
+        Simpan Perubahan
+    </button>
+    <button type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal">
+        Batal
+    </button>
+</div>
+
+</form>
+</div>
+</div>
+@endforeach
+
+{{-- ================= MODAL DELETE CPL ================= --}}
 @foreach($cpl as $item)
 <div class="modal fade" id="deleteCPL{{ $item->id }}" tabindex="-1">
 <div class="modal-dialog">

@@ -13,4 +13,14 @@ class MataKuliah extends Model
         'nama_mk',
         'deskripsi'
     ];
+
+    public function bahankajian()
+    {
+        return $this->belongsToMany(
+            BahanKajian::class,
+            'bk_mk',
+            'mk_id',
+            'bk_id'
+        );
+    }
 }

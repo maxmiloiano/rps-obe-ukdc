@@ -28,11 +28,13 @@ class ProfilLulusanImport implements ToCollection, WithHeadingRow
                 continue;
             }
 
-            ProfilLulusan::create([
-                'kode_pl'      => trim($row['kode_pl']),
-                'deskripsi'    => trim($row['deskripsi_pl']), // ✅ FIX UTAMA
-                'kurikulum_id' => $this->kurikulum_id,
-            ]);
+            ProfilLulusan::updateOrCreate(
+                ['kode_pl' => trim($row['kode_pl'])],
+                [
+                    'deskripsi'    => trim($row['deskripsi_pl']), // ✅ FIX UTAMA
+                    'kurikulum_id' => $this->kurikulum_id,
+                ]
+            );
         }
     }
 }

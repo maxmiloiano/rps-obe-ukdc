@@ -14,7 +14,7 @@ use App\Http\Controllers\CplController;
 use App\Http\Controllers\IndikatorCplController;
 use App\Http\Controllers\BahanKajianController;
 use App\Http\Controllers\MataKuliahController;
-
+use App\Http\Controllers\PemetaanController;
 
 
 /*
@@ -150,6 +150,30 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/kurikulum/mata-kuliah/{id}', [MataKuliahController::class,'destroy'])->name('kurikulum.mk.destroy');
     Route::post('/kurikulum/mata-kuliah/import', [MataKuliahController::class,'import'])->name('kurikulum.mk.import');
     Route::get('/kurikulum/mata-kuliah/template', [MataKuliahController::class,'template'])->name('kurikulum.mk.template');
+});
+// ======== PEMETAAN CPL - PL ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/pemetaan/cpl-pl', [PemetaanController::class,'cplPl'])->name('kurikulum.pemetaan.cpl_pl');
+    Route::post('/kurikulum/pemetaan/cpl-pl/store', [PemetaanController::class,'storeCplPl'])->name('kurikulum.pemetaan.cplpl.store');
+    Route::post('/kurikulum/pemetaan/cpl-pl/delete',[PemetaanController::class, 'destroyCplPl'])->name('kurikulum.pemetaan.cplpl.delete');
+});
+// ======== PEMETAAN CPL - BK ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/pemetaan/cpl-bk',[PemetaanController::class,'cplBk'])->name('kurikulum.pemetaan.cpl_bk');
+
+    Route::post('/kurikulum/pemetaan/cpl-bk/store',
+        [PemetaanController::class,'storeCplBk']
+    )->name('kurikulum.pemetaan.cplbk.store');
+
+    Route::post('/kurikulum/pemetaan/cpl-bk/delete',
+        [PemetaanController::class,'destroyCplBk']
+    )->name('kurikulum.pemetaan.cplbk.delete');
+});
+// ======== PEMETAAN BK - MK ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/pemetaan/bk-mk',[PemetaanController::class,'bkMk'])->name('kurikulum.pemetaan.bk_mk');
+    Route::post('/kurikulum/pemetaan/bk-mk/store',[PemetaanController::class,'storeBkMk'])->name('kurikulum.pemetaan.bkmk.store');
+    Route::post('/kurikulum/pemetaan/bk-mk/delete',[PemetaanController::class,'destroyBkMk'])->name('kurikulum.pemetaan.bkmk.delete');
 });
 
     /*

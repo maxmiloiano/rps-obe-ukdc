@@ -14,6 +14,25 @@ class BahanKajian extends Model
         'deskripsi',
         'kurikulum_id'
     ];
+    public function cpls()
+    {
+        return $this->belongsToMany(
+            Cpl::class,
+            'cpl_bk',
+            'bk_id',
+            'cpl_id'
+        );
+    }
+
+    public function mataKuliah()
+    {
+        return $this->belongsToMany(
+            MataKuliah::class,
+            'bk_mk',
+            'bk_id',
+            'mk_id'
+        );
+    }
 
     public function kurikulum()
     {
