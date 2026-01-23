@@ -15,6 +15,7 @@ use App\Http\Controllers\IndikatorCplController;
 use App\Http\Controllers\BahanKajianController;
 use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\PemetaanController;
+use App\Http\Controllers\PenyusunanMkController;
 
 
 /*
@@ -175,7 +176,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kurikulum/pemetaan/bk-mk/store',[PemetaanController::class,'storeBkMk'])->name('kurikulum.pemetaan.bkmk.store');
     Route::post('/kurikulum/pemetaan/bk-mk/delete',[PemetaanController::class,'destroyBkMk'])->name('kurikulum.pemetaan.bkmk.delete');
 });
-
+// ========= PEMETAAN CPL - MK ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/pemetaan/cpl-mk',[PemetaanController::class,'cplMk'])->name('kurikulum.pemetaan.cpl_mk');
+    Route::post('/kurikulum/pemetaan/cpl-mk/store',[PemetaanController::class,'storeCplMk'])->name('kurikulum.pemetaan.cplmk.store');
+    Route::post('/kurikulum/pemetaan/cpl-mk/delete',[PemetaanController::class,'destroyCplMk'])->name('kurikulum.pemetaan.cplmk.delete');
+});
+// ======== PENYUSUNAN MATA KULIAH ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/penyusunan',
+        [PenyusunanMkController::class,'index']
+    )->name('kurikulum.penyusunan.index');
+    Route::post('/kurikulum/penyusunan',
+        [PenyusunanMkController::class,'store']
+    )->name('kurikulum.penyusunan.store');
+});
     /*
     |--------------------------------------------------------------------------
     | PROFILE (DARI LARAVEL BREEZE)

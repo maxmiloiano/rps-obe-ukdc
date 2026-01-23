@@ -31,7 +31,7 @@
         <a class="nav-link" href="{{ route('kurikulum.pemetaan.bk_mk') }}">BK & MK</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link">CPL & MK</a>
+        <a class="nav-link" href="{{ route('kurikulum.pemetaan.cpl_mk') }}">CPL & MK</a>
     </li>
 </ul>
 

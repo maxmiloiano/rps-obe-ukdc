@@ -12,10 +12,10 @@
 </nav>
 
 {{-- INFO --}}
-<div class="alert alert-info">
+<div class="alert alert-info mb-3">
     Saat ini anda sedang mengelola kurikulum OBE
     <strong>{{ $kurikulum->prodi->nama_prodi }}</strong>,
-    {{ $kurikulum->prodi->fakultas->nama_fakultas }}
+    {{ $kurikulum->prodi->fakultas->nama_fakultas }},
     Tahun {{ $kurikulum->tahun }}
 </div>
 
@@ -28,10 +28,10 @@
         <a class="nav-link" href="{{ route('kurikulum.pemetaan.cpl_bk') }}">CPL & BK</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active">BK & MK</a>
+        <a class="nav-link" href="{{ route('kurikulum.pemetaan.bk_mk') }}">BK & MK</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('kurikulum.pemetaan.cpl_mk') }}">CPL & MK</a>
+        <a class="nav-link active">CPL & MK</a>
     </li>
 </ul>
 
@@ -55,43 +55,43 @@
 
 {{-- TABLE --}}
 <table id="mapTable" class="table table-bordered text-center">
-<thead>
-<tr>
-    <th>No</th>
-    <th>Mata Kuliah</th>
-    @foreach($bk as $b)
-        <th>{{ $b->kode_bahan_kajian }}</th>
-    @endforeach
-    <th>Jumlah BK</th>
-</tr>
-</thead>
-<tbody>
-@foreach($mk as $item)
-<tr>
-    <td>{{ $loop->iteration }}</td>
-    <td class="text-start">
-        <strong>{{ $item->kode_mk }}</strong><br>
-        {{ $item->nama_mk }}
-    </td>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Mata Kuliah</th>
+            @foreach($cpl as $c)
+                <th>{{ $c->kode_cpl }}</th>
+            @endforeach
+            <th>Jumlah CPL</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($mk as $item)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td class="text-start">
+                <strong>{{ $item->kode_mk }}</strong><br>
+                {{ $item->nama_mk }}
+            </td>
 
-    @foreach($bk as $b)
-    <td>
-        <input type="checkbox"
-            class="bk-check"
-            data-mk="{{ $item->id }}"
-            data-bk="{{ $b->id }}"
-            {{ $item->bahanKajian->contains($b->id) ? 'checked' : '' }}>
-    </td>
-    @endforeach
+            @foreach($cpl as $c)
+            <td>
+                <input type="checkbox"
+                    class="cpl-check"
+                    data-mk="{{ $item->id }}"
+                    data-cpl="{{ $c->id }}"
+                    {{ $item->cpls->contains($c->id) ? 'checked' : '' }}>
+            </td>
+            @endforeach
 
-    <td>
-        <span class="badge bg-primary">
-            {{ $item->bahanKajian->count() }}
-        </span>
-    </td>
-</tr>
-@endforeach
-</tbody>
+            <td>
+                <span class="badge bg-primary">
+                    {{ $item->cpls->count() }}
+                </span>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
 </table>
 
 @endsection
@@ -100,10 +100,8 @@
 <script>
 $(function(){
 
-    /* ================= DATATABLE ================= */
     let table = $('#mapTable').DataTable({
         pageLength: 50,
-        lengthMenu: [10,25,50,100],
         dom: 'rtip'
     });
 
@@ -115,26 +113,24 @@ $(function(){
         table.search(this.value).draw();
     });
 
-    /* ================= CHECKBOX BK & MK ================= */
-    $('.bk-check').change(function(){
+    $('.cpl-check').change(function(){
 
-        let cb = $(this);
-        let mk = cb.data('mk');
-        let bk = cb.data('bk');
+        let cb  = $(this);
+        let mk  = cb.data('mk');
+        let cpl = cb.data('cpl');
 
         let badge = cb.closest('tr').find('.badge');
         let count = parseInt(badge.text());
 
         let url = cb.is(':checked')
-            ? "{{ route('kurikulum.pemetaan.bkmk.store') }}"
-            : "{{ route('kurikulum.pemetaan.bkmk.delete') }}";
+            ? "{{ route('kurikulum.pemetaan.cplmk.store') }}"
+            : "{{ route('kurikulum.pemetaan.cplmk.delete') }}";
 
         $.post(url,{
             _token: "{{ csrf_token() }}",
             mk_id: mk,
-            bk_id: bk
-        })
-        .done(function(res){
+            cpl_id: cpl
+        }).done(function(res){
 
             if(res.status === 'saved'){
                 badge.text(count + 1);
@@ -146,22 +142,19 @@ $(function(){
                 toast(res.message,'warning');
             }
 
-        })
-        .fail(function(){
-            alert('Gagal menyimpan!');
+        }).fail(function(){
+            alert('Terjadi kesalahan');
             cb.prop('checked', !cb.is(':checked'));
         });
-
     });
 
 });
 
-/* ================= TOAST ================= */
 function toast(msg,type){
     let color = type === 'success' ? 'bg-success' : 'bg-warning';
 
     let t = $(`
-        <div class="toast ${color} text-white position-fixed top-0 end-0 m-3">
+        <div class="toast text-white ${color} position-fixed top-0 end-0 m-3">
             <div class="toast-body">${msg}</div>
         </div>
     `);
@@ -172,4 +165,3 @@ function toast(msg,type){
 }
 </script>
 @endpush
-

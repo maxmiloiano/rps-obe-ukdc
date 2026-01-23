@@ -23,4 +23,21 @@ class MataKuliah extends Model
             'bk_id'
         );
     }
+    public function cpls()
+    {
+        return $this->belongsToMany(
+            Cpl::class,
+            'cpl_mk',
+            'mk_id',
+            'cpl_id'
+        );
+    }
+    public function penyusunan()
+    {
+        return $this->hasOne(PenyusunanMk::class, 'mk_id');
+    }
+    public function kurikulum()
+    {
+        return $this->belongsTo(Kurikulum::class);
+    }
 }

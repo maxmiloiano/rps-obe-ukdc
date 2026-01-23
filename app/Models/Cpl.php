@@ -33,6 +33,16 @@ class Cpl extends Model
             'bk_id'
         );
     }
+    public function mks()
+    {
+        return $this->belongsToMany(
+        MataKuliah::class,
+        'cpl_mk',
+        'cpl_id',
+        'mk_id'
+        );
+    }
+
     public function kurikulum()
     {
         return $this->belongsTo(Kurikulum::class);

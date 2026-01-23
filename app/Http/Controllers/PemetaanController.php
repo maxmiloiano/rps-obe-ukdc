@@ -140,4 +140,46 @@ class PemetaanController extends Controller
             'message' => 'Pilihan dibatalkan'
         ]);
     }
+    /* ================= CPL & MK ================= */
+    public function cplMk()
+{
+    $kurikulum = Kurikulum::with('prodi.fakultas')
+        ->where('status','Aktif')
+        ->firstOrFail();
+
+    // AMBIL SEMUA MK (karena tidak ada kurikulum_id)
+    $mk = MataKuliah::with('cpls')->get();
+
+    $cpl = Cpl::where('kurikulum_id', $kurikulum->id)->get();
+
+    return view('kurikulum.pemetaan.cpl_mk', compact(
+        'kurikulum','mk','cpl'
+    ));
+}
+
+public function storeCplMk(Request $request)
+{
+    DB::table('cpl_mk')->updateOrInsert([
+        'cpl_id' => $request->cpl_id,
+        'mk_id'  => $request->mk_id
+    ]);
+
+    return response()->json([
+        'status'  => 'saved',
+        'message' => 'Pilihan tersimpan'
+    ]);
+}
+
+public function destroyCplMk(Request $request)
+{
+    DB::table('cpl_mk')
+        ->where('cpl_id', $request->cpl_id)
+        ->where('mk_id', $request->mk_id)
+        ->delete();
+
+    return response()->json([
+        'status'  => 'deleted',
+        'message' => 'Pilihan dibatalkan'
+    ]);
+}
 }
