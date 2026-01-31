@@ -16,7 +16,9 @@ use App\Http\Controllers\BahanKajianController;
 use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\PemetaanController;
 use App\Http\Controllers\PenyusunanMkController;
-
+use App\Http\Controllers\MkPrasyaratController;
+use App\Http\Controllers\MkDosenController;
+use App\Http\Controllers\IndikatorMkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -184,12 +186,26 @@ Route::middleware(['auth'])->group(function () {
 });
 // ======== PENYUSUNAN MATA KULIAH ========
 Route::middleware(['auth'])->group(function () {
-    Route::get('/kurikulum/penyusunan',
-        [PenyusunanMkController::class,'index']
-    )->name('kurikulum.penyusunan.index');
-    Route::post('/kurikulum/penyusunan',
-        [PenyusunanMkController::class,'store']
-    )->name('kurikulum.penyusunan.store');
+    Route::get('/kurikulum/penyusunan',[PenyusunanMkController::class,'index'])->name('kurikulum.penyusunan.index');
+    Route::post('/kurikulum/penyusunan',[PenyusunanMkController::class,'store'])->name('kurikulum.penyusunan.store');
+});
+// ======== MATA KULIAH PRASYARAT ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/penyusunan/mk-prasyarat',[MkPrasyaratController::class, 'index'])->name('kurikulum.mk_prasyarat.index');
+    Route::post('/kurikulum/penyusunan/mk-prasyarat',[MkPrasyaratController::class, 'store'])->name('kurikulum.mk_prasyarat.store');
+    Route::delete('/kurikulum/penyusunan/mk-prasyarat/{id}',[MkPrasyaratController::class, 'destroy'])->name('kurikulum.mk_prasyarat.destroy');
+});
+// ======== MATA KULIAH DOSEN PENGAMPU ========
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/penyusunan/mk-dosen',[MkDosenController::class, 'index'])->name('kurikulum.mk_dosen.index');
+    Route::post('/kurikulum/penyusunan/mk-dosen',[MkDosenController::class, 'store'])->name('kurikulum.mk_dosen.store');
+    Route::delete('/kurikulum/penyusunan/mk-dosen/{id}',[MkDosenController::class, 'destroy'])->name('kurikulum.mk_dosen.destroy');
+});
+// ======== INDIKATOR MK =======
+Route::middleware(['auth'])->group(function () {
+    Route::get('/kurikulum/penyusunan/mk-indikator',[IndikatorMkController::class, 'index'])->name('kurikulum.indikator_mk.index');
+    Route::post('/kurikulum/penyusunan/mk-indikator',[IndikatorMkController::class, 'store'])->name('kurikulum.indikator_mk.store');
+    Route::delete('/kurikulum/penyusunan/mk-indikator/{id}',[IndikatorMkController::class, 'destroy'])->name('kurikulum.indikator_mk.destroy');
 });
     /*
     |--------------------------------------------------------------------------

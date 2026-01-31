@@ -15,7 +15,15 @@ class PenyusunanMkController extends Controller
             ->where('status','Aktif')
             ->firstOrFail();
 
-        $mk = MataKuliah::with('penyusunan')->get();
+        $mk = MataKuliah::leftJoin('penyusunan_mk', 'mata_kuliah.id', '=', 'penyusunan_mk.mk_id')
+            ->select(
+                'mata_kuliah.*',
+                'penyusunan_mk.sks',
+                'penyusunan_mk.kategori',
+                'penyusunan_mk.semester'
+            )
+            ->orderBy('mata_kuliah.kode_mk')
+            ->get();
 
         return view('kurikulum.penyusunan.index', compact(
             'kurikulum','mk'

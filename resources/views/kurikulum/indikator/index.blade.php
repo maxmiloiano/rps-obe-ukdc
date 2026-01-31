@@ -258,7 +258,10 @@
 
 <div class="modal-header bg-danger text-white">
     <h5 class="modal-title">Konfirmasi Penghapusan</h5>
-    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    {{-- ❌ CLOSE (X) → HARUS type="button" --}}
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
 </div>
 
 <div class="modal-body">
@@ -268,8 +271,10 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-    <button class="btn btn-danger">Hapus</button>
+    <button type="button"
+    class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+    <button type="submit" 
+    class="btn btn-danger">Hapus</button>
 </div>
 
 </form>

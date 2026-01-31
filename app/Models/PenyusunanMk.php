@@ -19,4 +19,12 @@ class PenyusunanMk extends Model
     {
         return $this->belongsTo(MataKuliah::class, 'mk_id');
     }
+    public function prasyarat()
+    {
+        return $this->hasMany(
+        MkPrasyarat::class,
+        'mk_id',
+        'mk_id'
+        );
+    }
 }

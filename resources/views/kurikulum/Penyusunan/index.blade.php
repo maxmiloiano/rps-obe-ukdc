@@ -24,9 +24,12 @@
     <li class="nav-item">
         <a class="nav-link active">Penyusunan MK</a>
     </li>
-    <li class="nav-item"><a class="nav-link">MK Prasyarat</a></li>
-    <li class="nav-item"><a class="nav-link">Dosen Pengampu MK</a></li>
-    <li class="nav-item"><a class="nav-link">Indikator MK</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('kurikulum.mk_prasyarat.index') }}">MK Prasyarat</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('kurikulum.mk_dosen.index') }}">Dosen Pengampu MK</a></li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('kurikulum.indikator_mk.index') }}">Indikator MK</a></li>
 </ul>
 
 <form method="POST" action="{{ route('kurikulum.penyusunan.store') }}">
@@ -61,11 +64,9 @@
 
 <tbody>
 @foreach($mk as $item)
-@php
-    $p = $item->penyusunan;
-@endphp
 <tr>
     <td>{{ $loop->iteration }}</td>
+
     <td class="text-start">
         <strong>{{ $item->kode_mk }}</strong><br>
         {{ $item->nama_mk }}
@@ -75,21 +76,22 @@
     <td>
         <input type="number" class="form-control"
             name="mk[{{ $item->id }}][sks]"
-            value="{{ $p->sks ?? '' }}">
+            value="{{ $item->sks }}">
     </td>
 
     {{-- KATEGORI --}}
     <td>
         <input type="radio"
             name="mk[{{ $item->id }}][kategori]"
-            value="Wajib"
-            {{ ($p->kategori ?? '')=='Wajib'?'checked':'' }}>
+            value="wajib"
+            {{ $item->kategori === 'wajib' ? 'checked' : '' }}>
     </td>
+
     <td>
         <input type="radio"
             name="mk[{{ $item->id }}][kategori]"
-            value="Pilihan"
-            {{ ($p->kategori ?? '')=='Pilihan'?'checked':'' }}>
+            value="pilihan"
+            {{ $item->kategori === 'pilihan' ? 'checked' : '' }}>
     </td>
 
     {{-- SEMESTER --}}
@@ -98,12 +100,13 @@
         <input type="radio"
             name="mk[{{ $item->id }}][semester]"
             value="{{ $i }}"
-            {{ ($p->semester ?? '')==$i?'checked':'' }}>
+            {{ (int)$item->semester === $i ? 'checked' : '' }}>
     </td>
     @endfor
 </tr>
 @endforeach
 </tbody>
+
 </table>
 
 </form>

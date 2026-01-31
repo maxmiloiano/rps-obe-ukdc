@@ -40,4 +40,15 @@ class MataKuliah extends Model
     {
         return $this->belongsTo(Kurikulum::class);
     }
+    public function prasyarat()
+    {
+        return $this->hasMany(
+        \App\Models\MkPrasyarat::class,
+        'mk_id'
+        );
+    }
+    public function mkDosen()
+    {
+        return $this->hasMany(MkDosen::class, 'mk_id');
+    }
 }

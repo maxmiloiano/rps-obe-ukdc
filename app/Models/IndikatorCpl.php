@@ -19,4 +19,8 @@ class IndikatorCpl extends Model
     {
         return $this->belongsTo(Cpl::class);
     }
+    public function indikatorMk()
+    {
+        return $this->hasMany(IndikatorMk::class, 'indikator_cpl_id');
+    }
 }
